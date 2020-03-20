@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f9f0e8">
+        <ImageView
+            android:layout_width="65dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/logo"/>  //로고
+        <ImageView
+            android:id="@+id/menu1"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@id/menu2"
+            android:src="@drawable/menu01"/> //여행지 입력
+        <ImageView
+            android:id="@+id/menu2"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@id/menu3"
+            android:src="@drawable/menu02"/>  //스케줄 짜기
+        <ImageView
+            android:id="@+id/menu3"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/menu03"/>   //마이 페이지
+        <ImageView
+            android:id="@+id/title"
+            android:layout_width="210dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_below="@id/menu1"
+            android:src="@drawable/title_2"/>  //'여행 스케쥴 짜기' title
+        <ImageView
+            android:id="@+id/sub"
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@id/title"
+            android:src="@drawable/subpage4"/>   //'여행 방문 도시를 입력하면...' subtitle
+
+        <RelativeLayout
+            android:id="@+id/select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sub"
+            android:layout_marginLeft="30dp">
+            <RelativeLayout
+                android:id="@+id/layout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/startDate"
+                    android:layout_width="70dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/q01" />     //달력 날짜
+                <EditText
+                    android:id="@+id/Date"
+                    android:layout_width="150dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@+id/startDate"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/startDate"
+                    android:background="@drawable/box01"
+                    android:clickable="true"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    android:focusable="false" />    //달력 날짜
+                <Button
+                    android:id="@+id/sche_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@+id/Date"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_toRightOf="@+id/Date"
+                    android:background="@drawable/btn01" />   //달력버튼
+                <TextView
+                    android:id="@+id/startName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/sche_btn"
+                    android:text="출발 도시 여기에"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@id/layout2"
+                android:layout_marginTop="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/ticket"
+                    android:layout_width="70dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/q02"/>   //이용권 이미지
+                <TextView
+                    android:id="@+id/ticket1"
+                    android:layout_width="150dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@+id/ticket"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/ticket"
+                    android:completionThreshold="1"
+                    android:clickable="true"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    android:background="@drawable/box02" />    //이용권 박스
+                <Button
+                    android:id="@+id/ticket2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@+id/ticket"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_toRightOf="@+id/ticket1"
+                    android:background="@drawable/btn02"/>   //이용권 버튼
+                <TextView
+                    android:id="@+id/endName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/ticket2"
+                    android:text="도착 도시 여기에"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/select"
+            android:layout_marginTop="20dp">
+            <ImageView
+                android:id="@+id/map_title_box"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:src="@drawable/map_title" />   //방문도시 박스
+
+        </RelativeLayout>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/select"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="110dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="27dp"
+                    android:text="야호"
+                    android:id="@+id/text1" />
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="27dp"
+                    android:text="야호"
+                    android:id="@+id/text2"/>
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="27dp"
+                    android:text="야호"
+                    android:id="@+id/text3"/>
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="27dp"
+                    android:text="야호"
+                    android:id="@+id/text4"/>
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="27dp"
+                    android:text="야호"
+                    android:id="@+id/text5"/>
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="27dp"
+                    android:text="야호"
+                    android:id="@+id/text6"/>
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/city">
+
+            <WebView
+                android:id="@+id/web"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>  //웹뷰
+
+            <AutoCompleteTextView
+                android:dropDownHeight="100dp"
+                android:id="@+id/startStation"
+                android:layout_width="170dp"
+                android:layout_height="35dp"
+                android:clickable="true"
+                android:completionThreshold="1"
+                android:background="@drawable/op90_2"
+                android:layout_marginTop="15dp"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textAlignment="center"
+                android:layout_centerHorizontal="true" />    //자동입력
+            <Button
+                android:id="@+id/startStation_Btn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignBottom= "@+id/startStation"
+                android:layout_marginLeft="-30dp"
+                android:layout_marginBottom="6dp"
+                android:layout_toRightOf="@+id/startStation"
+                android:background="@drawable/btn02"/>   //자동입력 버튼
+            <Button
+                android:id="@+id/buttonOk"
+                android:layout_width="165dp"
+                android:layout_height="59dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btnokpg4" />   //경로최적화 버튼
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
