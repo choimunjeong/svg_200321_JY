@@ -29,16 +29,7 @@ function on_click(evt)
 		middle.setAttribute("value", "2_"+name );
 		end.setAttribute("value", "3_"+name );
 
-		function r(){
-	var windowWidth = $(window).width();
-	if(windowWidth < 1000) {
-	    var start = document.getElementById( 'start' );
-	    start.setAttribute("r", 50);
-	} else {
-	    var start = document.getElementById( 'start' );
-	    start.setAttribute("r", 15);
-	}
-}
+		android.send(name);
 }
 
 function on_click2(evt)

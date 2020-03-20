@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         web.getSettings().setBuiltInZoomControls(true);
         web.getSettings().setSupportZoom(true);
         web.setWebViewClient(new WebViewClient());
-        web.setInitialScale(230);                          //웹뷰 화면 비율 맞추기
+//        web.setInitialScale(230);                          //웹뷰 화면 비율 맞추기
 
         //웹뷰를 로드함
         web.loadUrl("file:///android_asset/index.html");
