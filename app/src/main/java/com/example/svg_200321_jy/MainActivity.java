@@ -18,8 +18,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -40,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
 
     String readStr = "";  //txt에서 가져온 문자를 담는다.
     LinearLayout addview;  //동적으로 text 추가할 레이아웃
@@ -72,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
         list = new ArrayList<String>();            //리스트를 생성
         settingList();                             //리스트에 검색될 단어를 추가한다
 
-        //객체 연결
-        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.startStation);
 
-        //아답터에 연결
-        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, list));
+        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.startStation);    //객체 연결
+        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, list));   //아답터에 연결
+
+
 
         //맵 버튼을 누르면->page678로 이동
 //        Button go_page678 = (Button)findViewById(R.id.buttonOk);
@@ -87,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
 //            }
 //        });
+
 
         //editText를 선택하면 Date피커가 나온다.
         et_Date = (EditText) findViewById(R.id.Date);
@@ -128,25 +133,7 @@ public class MainActivity extends AppCompatActivity {
 //        web.setInitialScale(230);                          //웹뷰 화면 비율 맞추기
 
         //웹뷰를 로드함
-        web.loadUrl("file:///android_asset/index.html");
-
-        //웹뷰에서 터치된 역의 화면좌표를 받는다
-        web.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                xx = event.getX();
-                yy = event.getY();
-                Toast.makeText(getApplicationContext(), xx+"+"+yy, Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
-
-        //화면 해상도 구하기
-        Display display = getWindowManager().getDefaultDisplay();
-        Point point = new Point();
-        display.getSize(point);
-        width = point.x;
-        height = point.y;
+        web.loadUrl("file:///android_asset/index2.html");
 
         //자바스크립트에서 메시지를 받을 수 있게 함 + 글자 비교해서 이미지 나오도록
         web.addJavascriptInterface(new Object(){
@@ -155,43 +142,73 @@ public class MainActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //int xx = (int)Double.parseDouble(x);
-                        //int yy = (int)Double.parseDouble(y);
-                        //web.scrollTo(xx-300, yy-300);
-                        //Toast.makeText(getApplicationContext(), xx+"------"+yy, Toast.LENGTH_LONG).show();
 
-                        //터치된 역이 화면 가장가리 가까이에 있으면 화면 안으로 밀어줌
-                        if ( xx < 50 && yy < 50){ web.scrollBy(-150, -150); }
-                        else if (  xx < 100 && yy < 50) { web.scrollBy(-100, -150); }
-                        else if (  xx < 50 && yy < 100) { web.scrollBy(-150, -100); }
-                        else if ( xx < 50) { web.scrollBy(-150, 0); }
-                        else if ( yy < 50) { web.scrollBy(0, -150); }
-                        else if ( (xx > 50 && xx < 100) && (yy > 50 && yy < 100)){ web.scrollBy(-100, -100); }
-                        else if ( xx > 50 && xx < 100) { web.scrollBy(-100, 0); }
-                        else if ( yy > 50 && yy < 100) { web.scrollBy(0, -100); }
-
-                        else if ( xx > width-50  && yy > height-50){ web.scrollBy(150, 150); }
-                        else if ( xx > width-50) { web.scrollBy(150, 0); }
-                        else if ( yy > height-50) { web.scrollBy(0, 150); }
-                        else if ( (xx < width-50 && xx > width-100) && (yy < height-50 && yy > height-100)){ web.scrollBy(100, 100); }
-                        else if (xx < width-50 && xx > width-100) { web.scrollBy(100, 0); }
-                        else if (yy < height-50 && yy > height-100) { web.scrollBy(0, 100); }
-
-                        else { web.scrollBy(0,0); }
-
-                        text[0].setText(msg);
-
+                        //넣을 text가 비어있는지 검사 후 넣기
+                        //또, text배열에 같은 값이 있으면 안돼.
+                        //또, text 자리가 꽉 차있으면 안내해줘야해.
+                        for(i=0;i < 6; i++){
+                            if(msg.equals(text[i].getText())){
+                                dialog_Show();
+                                break;
+                            }
+                            else if("야호".equals(text[i].getText()) ){
+                                text[i].setText(msg);
+                                break;
+                            }
+                            else if(i==5){
+                                no_Show();
+                                break;
+                            }
+                        }
                     }});
             }
         }, "android");
 
+        //자바스크립트에서 메시지를 받을 수 있게 함 + 글자 비교해서 텍스트뷰에서 삭제하도록
+        web.addJavascriptInterface(new Object(){
+            @JavascriptInterface
+            public void delete(final String msg){
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //지우려는 역을 text에서 찾고, 배열을 한칸씩 앞으로 당겨준다.
+                        for(i=0;i < 6; i++){
+
+                            //찾은 역이 있는 text번호(i)를 찾으면
+                            if(msg.equals(text[i].getText())){
+
+                                //한칸씩 앞으로 값을 보낸다.
+                                for(int j=i; j < text.length; j++){
+                                    if(j != text.length-1){
+                                        text[j].setText(text[j+1].getText());
+                                        //Toast.makeText(getApplicationContext(), "찾았다"+msg, Toast.LENGTH_SHORT).show();
+
+                                        //다음 text에 값이 없으면 for문을 끝낸다.
+                                        if(j < text.length && text[j+1].getText().equals("야호")){
+                                            break;
+                                        }
+                                    }
+                                    else{
+                                        text[j].setText("야호");
+                                        //Toast.makeText(getApplicationContext(), "끝났다"+msg, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                break;
+                            }
+                                //Toast.makeText(getApplicationContext(), i+"다르대~"+msg, Toast.LENGTH_SHORT).show();
+                        }
+                    }});
+            }
+        }, "android2");
+
+        web.setWebChromeClient(new WebChromeClient());
 
 
-        //자동입력 버튼 누르면 웹뷰 지도에서 해당역 표시
-        startStation_Btn = (Button)findViewById(R.id.startStation_Btn);
-        startStation_Btn.setOnClickListener(new View.OnClickListener() {
+        //자동입력에서 항목을 터치했을 때, 키보드가 바로 내려감 + 웹뷰에서 해당역에 출경도 버튼 띄워짐-!!!!!!!!!!!!!!!!!!!!!!
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(autoCompleteTextView.getText().toString() != null) {
 //                    Toast.makeText(getApplicationContext(), autoCompleteTextView.getText().toString(), Toast.LENGTH_SHORT).show();
                     web.loadUrl("javascript:setMessage('"+autoCompleteTextView.getText().toString()+"')");
@@ -199,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //키보드 내림
                 InputMethodManager mInputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                mInputMethodManager.hideSoftInputFromWindow(startStation_Btn.getWindowToken(), 0);
+                mInputMethodManager.hideSoftInputFromWindow(autoCompleteTextView.getWindowToken(), 0);
             }
         });
     }
@@ -274,4 +291,35 @@ public class MainActivity extends AppCompatActivity {
 
         alert.show();
     }
+
+
+    //경유 추가하는데 이미 추가가 되어있다면 다이얼로그 띄움
+    void dialog_Show(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Error");
+        builder.setMessage("이미 추가한 경유역입니다.");
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.show();
+    }
+
+
+    //경유 추가하는데 자리가 없으면 없다고 다이얼로그 띄움
+    void no_Show(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Error");
+        builder.setMessage("추가할 수 있는 개수를 초과했습니다.");
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.show();
+    }
+
 }
+
+

@@ -219,15 +219,15 @@
                 android:textSize="15dp"
                 android:textAlignment="center"
                 android:layout_centerHorizontal="true" />    //자동입력
-            <Button
-                android:id="@+id/startStation_Btn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignBottom= "@+id/startStation"
-                android:layout_marginLeft="-30dp"
-                android:layout_marginBottom="6dp"
-                android:layout_toRightOf="@+id/startStation"
-                android:background="@drawable/btn02"/>   //자동입력 버튼
+<!--            <Button-->
+<!--                android:id="@+id/startStation_Btn"-->
+<!--                android:layout_width="25dp"-->
+<!--                android:layout_height="25dp"-->
+<!--                android:layout_alignBottom= "@+id/startStation"-->
+<!--                android:layout_marginLeft="-30dp"-->
+<!--                android:layout_marginBottom="6dp"-->
+<!--                android:layout_toRightOf="@+id/startStation"-->
+<!--                android:background="@drawable/btn02"/>   //자동입력 버튼-->
             <Button
                 android:id="@+id/buttonOk"
                 android:layout_width="165dp"
